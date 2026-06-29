@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>PostIA — Tes posts réseaux sociaux générés en 30 secondes</title>
+<meta name="description" content="L'IA qui rédige les posts Instagram, Facebook et TikTok de ton commerce. 3 essais gratuits, sans carte bancaire.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f0f;--bg2:#141414;--card:#1a1a1a;--card2:#1f1f1f;--border:#2a2a2a;
+  --accent:#c8f135;--text:#f0f0f0;--muted:#8a8a8a;--muted2:#5a5a5a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.wrap-narrow{max-width:680px;margin:0 auto;padding:0 24px}
+a{color:inherit;text-decoration:none}
+
+/* ── Nav ──────────────────────────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,15,15,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1080px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:18px;font-weight:800;color:var(--accent);letter-spacing:-0.3px}
+.nav-cta{background:var(--accent);color:#000;font-size:13px;font-weight:700;padding:11px 18px;border-radius:99px;white-space:nowrap;min-height:38px;display:inline-flex;align-items:center}
+.nav-cta:active{transform:scale(0.96)}
+
+/* ── Hero ─────────────────────────────────────────────── */
+.hero{padding:120px 0 80px;position:relative}
+@media(max-width:640px){.hero{padding:96px 0 56px}}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--accent);background:rgba(200,241,53,.08);border:1px solid rgba(200,241,53,.25);padding:6px 14px;border-radius:99px;margin-bottom:24px}
+.hero h1{font-size:clamp(34px,7vw,62px);font-weight:800;letter-spacing:-1.5px;line-height:1.05;margin-bottom:20px;max-width:780px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:var(--muted);max-width:520px;line-height:1.6;margin-bottom:32px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.btn-primary{background:var(--accent);color:#000;font-size:15px;font-weight:700;padding:16px 28px;border-radius:12px;display:inline-flex;align-items:center;gap:8px;transition:transform .15s}
+.btn-primary:active{transform:scale(0.97)}
+.hero-note{font-size:13px;color:var(--muted2)}
+.hero-note strong{color:var(--muted)}
+
+/* ── Demo strip : posts qui défilent ─────────────────── */
+.demo{margin-top:64px;position:relative}
+.demo-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:16px;text-align:center}
+.demo-track-wrap{position:relative;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.demo-track{display:flex;gap:16px;width:max-content;animation:scroll-left 32s linear infinite}
+.demo-track:hover{animation-play-state:paused}
+@keyframes scroll-left{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.post-mini{width:280px;flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;font-size:13px;line-height:1.6}
+.post-mini-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.post-mini-plat{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent)}
+.post-mini-time{font-size:11px;color:var(--muted2)}
+.post-mini-body{color:var(--text)}
+.post-mini-tags{color:#6b8fd6;margin-top:8px;font-size:12px}
+
+/* ── Problème / Solution ──────────────────────────────── */
+.section{padding:80px 0}
+@media(max-width:640px){.section{padding:56px 0}}
+.section-tight{padding:60px 0}
+.kicker{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.h2{font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-0.8px;line-height:1.15;margin-bottom:16px}
+.h2-sub{font-size:16px;color:var(--muted);line-height:1.6;max-width:560px}
+
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+@media(max-width:760px){.pain-grid{grid-template-columns:1fr}}
+.pain-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px}
+.pain-emoji{font-size:28px;margin-bottom:14px;opacity:0.9}
+.pain-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.pain-text{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* ── Comment ça marche ────────────────────────────────── */
+.steps{display:flex;flex-direction:column;gap:0;margin-top:48px;max-width:640px}
+.step{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{flex-shrink:0;width:40px;height:40px;border-radius:10px;background:var(--card2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:var(--accent)}
+.step-content h3{font-size:16px;font-weight:700;margin-bottom:5px}
+.step-content p{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* ── Pricing ───────────────────────────────────────────── */
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
+@media(max-width:640px){.pricing-grid{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto}}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px 28px;position:relative;display:flex;flex-direction:column}
+.price-card.featured{border-color:var(--accent);background:linear-gradient(160deg,rgba(200,241,53,.07),rgba(200,241,53,.01))}
+.price-badge{position:absolute;top:-12px;left:28px;background:var(--accent);color:#000;font-size:11px;font-weight:800;padding:4px 12px;border-radius:99px}
+.price-name{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.price-card.featured .price-name{color:var(--accent)}
+.price-amount{font-size:42px;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
+.price-amount span{font-size:15px;font-weight:500;color:var(--muted)}
+.price-trial{font-size:13px;color:var(--accent);font-weight:600;margin-bottom:24px}
+.price-feat{list-style:none;margin-bottom:28px;flex:1}
+.price-feat li{font-size:14px;color:var(--text);padding:8px 0;border-top:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.price-feat li:first-child{border-top:none}
+.price-feat li::before{content:"✓";color:var(--accent);font-weight:800;flex-shrink:0}
+.btn-price{width:100%;text-align:center;background:transparent;border:1.5px solid var(--border);color:var(--text);font-size:14px;font-weight:700;padding:14px;border-radius:12px;display:block;transition:all .15s}
+.price-card.featured .btn-price{background:var(--accent);border-color:var(--accent);color:#000}
+.btn-price:active{transform:scale(0.97)}
+
+/* ── FAQ ───────────────────────────────────────────────── */
+.faq-item{border-bottom:1px solid var(--border);padding:22px 0}
+.faq-q{font-size:15px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq-q-icon{color:var(--accent);font-size:18px;flex-shrink:0;transition:transform .2s}
+.faq-item.open .faq-q-icon{transform:rotate(45deg)}
+.faq-a{font-size:14px;color:var(--muted);line-height:1.6;margin-top:0;max-height:0;overflow:hidden;transition:all .25s ease}
+.faq-item.open .faq-a{margin-top:12px;max-height:200px}
+
+/* ── CTA final ─────────────────────────────────────────── */
+.cta-final{background:linear-gradient(160deg,var(--card),var(--bg2));border:1px solid var(--border);border-radius:28px;padding:64px 32px;text-align:center;margin:0 24px}
+@media(max-width:480px){.cta-final{padding:48px 20px;margin:0 16px}}
+.cta-final h2{font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-0.8px;margin-bottom:14px}
+.cta-final p{font-size:15px;color:var(--muted);margin-bottom:32px}
+
+/* ── Footer ────────────────────────────────────────────── */
+.footer{padding:48px 0 32px;text-align:center;border-top:1px solid var(--border);margin-top:40px}
+.footer-logo{font-size:15px;font-weight:800;color:var(--accent);margin-bottom:8px}
+.footer-text{font-size:12px;color:var(--muted2)}
+
+/* ── Reveal on scroll ──────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media(prefers-reduced-motion:reduce){
+  .demo-track{animation:none}
+  .reveal{opacity:1;transform:none;transition:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">PostIA ✦</div>
+    <a href="https://generateur-posts.vercel.app" class="nav-cta">Essayer gratuitement</a>
+  </div>
+</nav>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">⚡ Propulsé par IA · Pensé pour les commerçants</div>
+    <h1>Tes posts réseaux sociaux, <em>générés en 30 secondes.</em></h1>
+    <p class="hero-sub">Décris ton commerce, choisis tes réseaux. PostIA rédige des publications Instagram, Facebook, TikTok prêtes à poster — pendant que tu gères ta boutique.</p>
+    <div class="hero-ctas">
+      <a href="https://generateur-posts.vercel.app" class="btn-primary">Essayer maintenant →</a>
+    </div>
+    <div class="hero-note"><strong>3 essais gratuits</strong> · sans carte bancaire · résultat en 30 secondes</div>
+
+    <div class="demo">
+      <div class="demo-label">Exemples générés par PostIA</div>
+      <div class="demo-track-wrap">
+        <div class="demo-track" id="demoTrack"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════ PROBLÈME ════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="kicker reveal">Le constat</div>
+    <h2 class="h2 reveal">Gérer ses réseaux, c'est un métier à part entière.</h2>
+    <p class="h2-sub reveal">Et la plupart des commerçants n'ont ni le temps, ni l'envie d'en faire un.</p>
+
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <div class="pain-emoji">😩</div>
+        <div class="pain-title">Pas d'idées</div>
+        <div class="pain-text">Tu sais que tu dois poster, mais tu ne sais jamais quoi écrire — alors les jours passent sans rien publier.</div>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-emoji">⏰</div>
+        <div class="pain-title">Pas le temps</div>
+        <div class="pain-text">Entre les clients, les commandes et la gestion du quotidien, rédiger des posts arrive toujours en dernier.</div>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-emoji">📉</div>
+        <div class="pain-title">Posts qui se ressemblent</div>
+        <div class="pain-text">Toujours la même formule, le même ton — et l'engagement qui stagne au fil des mois.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ COMMENT ÇA MARCHE ════════════════════ -->
+<section class="section" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="kicker reveal">Comment ça marche</div>
+    <h2 class="h2 reveal">Trois étapes, zéro prise de tête.</h2>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Décris ton activité</h3>
+          <p>Quelques mots sur ton commerce, une promo en cours si tu en as, et le ton que tu veux donner.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Choisis tes réseaux</h3>
+          <p>Instagram, Facebook, LinkedIn, TikTok, Twitter/X — sélectionne où tu veux publier, l'IA adapte le format à chacun.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Copie et publie</h3>
+          <p>Tes posts arrivent en 30 secondes, prêts à copier-coller. Hashtags inclus, emojis dosés, ton qui sonne humain.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ PRICING ════════════════════ -->
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="kicker reveal" style="text-align:center">Tarifs</div>
+    <h2 class="h2 reveal" style="text-align:center;margin-left:auto;margin-right:auto">Simple, sans surprise.</h2>
+    <p class="h2-sub reveal" style="text-align:center;margin:0 auto">Commence gratuitement. Passe à l'abonnement quand tu es convaincu — 7 jours d'essai inclus, sans engagement.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-name">Starter</div>
+        <div class="price-amount">14€<span>/mois</span></div>
+        <div class="price-trial">✓ 7 jours d'essai gratuit</div>
+        <ul class="price-feat">
+          <li>100 générations par mois</li>
+          <li>Mode texte + upload de tes photos</li>
+          <li>Hashtags optimisés inclus</li>
+        </ul>
+        <a href="https://generateur-posts.vercel.app" class="btn-price">Choisir Starter</a>
+      </div>
+      <div class="price-card featured reveal">
+        <div class="price-badge">⭐ Recommandé</div>
+        <div class="price-name">Pro</div>
+        <div class="price-amount">24€<span>/mois</span></div>
+        <div class="price-trial">✓ 7 jours d'essai gratuit</div>
+        <ul class="price-feat">
+          <li>300 générations par mois</li>
+          <li>Fiche entreprise personnalisée</li>
+          <li>Ton logo incrusté sur les visuels</li>
+          <li>Support prioritaire</li>
+        </ul>
+        <a href="https://generateur-posts.vercel.app" class="btn-price">Choisir Pro</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ FAQ ════════════════════ -->
+<section class="section-tight" style="background:var(--bg2)">
+  <div class="wrap-narrow">
+    <div class="kicker reveal">Questions fréquentes</div>
+    <h2 class="h2 reveal">Tout ce qu'il faut savoir.</h2>
+
+    <div style="margin-top:32px">
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">Dois-je donner ma carte bancaire pour essayer ?<span class="faq-q-icon">+</span></div>
+        <div class="faq-a">Non. Les 3 premiers essais sont entièrement gratuits, sans aucune carte bancaire. Tu ne paies que si tu décides de passer à un abonnement.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">Les posts sont-ils vraiment adaptés à mon activité ?<span class="faq-q-icon">+</span></div>
+        <div class="faq-a">Oui. PostIA lit la description de ton activité et génère des posts uniques à chaque fois — pas de modèles génériques recyclés.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">Puis-je annuler mon abonnement à tout moment ?<span class="faq-q-icon">+</span></div>
+        <div class="faq-a">Oui, sans engagement. Tu peux annuler en un clic depuis ton compte, à n'importe quel moment.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)">Sur quels réseaux sociaux puis-je publier ?<span class="faq-q-icon">+</span></div>
+        <div class="faq-a">Instagram, Facebook, LinkedIn, TikTok et Twitter/X. Chaque post est adapté au format et au ton propre à la plateforme choisie.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ CTA FINAL ════════════════════ -->
+<section class="section">
+  <div class="cta-final reveal">
+    <h2>Prêt à ne plus jamais sécher devant une page blanche ?</h2>
+    <p>3 essais gratuits. Aucune carte bancaire requise.</p>
+    <a href="https://generateur-posts.vercel.app" class="btn-primary">Essayer PostIA gratuitement →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">PostIA ✦</div>
+  <div class="footer-text">Fait avec soin pour les commerçants qui n'ont pas le temps de devenir community manager.</div>
+</footer>
+
+<script>
+// ── Posts de démonstration qui défilent en boucle ──────────
+var demoPosts = [
+  { plat: 'Instagram', time: 'Il y a 2h', body: "Le lundi, ça commence comme ça ☕️ Un flat white onctueux, un croissant tout juste sorti du four, et cette odeur qui réveille même les plus endormis. On vous attend dès 7h !", tags: '#coffeeshop #toulon #matindouceur' },
+  { plat: 'Facebook', time: 'Hier', body: "3 raisons de venir nous voir ce week-end 👇\n🌿 Nouvelle carte de printemps\n🎉 -15% sur les desserts samedi\n💛 Toujours la même bonne humeur en cuisine", tags: '#restaurant #weekend' },
+  { plat: 'TikTok', time: 'Il y a 5h', body: "POV : tu cherches une coupe qui te ressemble vraiment 💇‍♀️ On prend le temps de comprendre ton style avant de toucher aux ciseaux. RDV dispo cette semaine.", tags: '#coiffeur #transformation #lyon' },
+  { plat: 'LinkedIn', time: 'Il y a 1j', body: "127 clients accompagnés ce mois-ci. Derrière chaque chiffre, une vraie conversation, un vrai conseil personnalisé. C'est ça, notre différence depuis 8 ans.", tags: '#artisanat #localbusiness' },
+  { plat: 'Instagram', time: 'Il y a 3h', body: "Arrivage du jour 🌸 Pivoines roses, eucalyptus, et ces petites fleurs des champs qu'on adore glisser dans nos bouquets. Passez les voir avant qu'elles ne partent !", tags: '#fleuriste #arrivage #bouquet' },
+  { plat: 'Facebook', time: 'Il y a 6h', body: "On a une question pour vous 💭 Quel est votre dessert préféré sur notre carte ? Dites-le en commentaire, le plus voté reste à -20% toute la semaine prochaine !", tags: '#patisserie #sondage' },
+];
+
+function buildDemoTrack(){
+  var track = document.getElementById('demoTrack');
+  var html = '';
+  // dupliqué x2 pour boucle infinie fluide
+  for (var rep = 0; rep < 2; rep++){
+    demoPosts.forEach(function(p){
+      html += '<div class="post-mini">' +
+        '<div class="post-mini-top"><span class="post-mini-plat">'+p.plat+'</span><span class="post-mini-time">'+p.time+'</span></div>' +
+        '<div class="post-mini-body">'+p.body.replace(/\n/g,'<br>')+'</div>' +
+        '<div class="post-mini-tags">'+p.tags+'</div>' +
+      '</div>';
+    });
+  }
+  track.innerHTML = html;
+}
+buildDemoTrack();
+
+// ── FAQ accordion ───────────────────────────────────────────
+function toggleFaq(el){
+  var item = el.parentElement;
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ── Reveal on scroll ─────────────────────────────────────────
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if (entry.isIntersecting) entry.target.classList.add('in');
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>
