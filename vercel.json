@@ -8,6 +8,10 @@
     {
       "source": "/stop/:t",
       "destination": "https://generateur-posts.vercel.app/stop/:t"
+    },
+    {
+      "source": "/api/contact",
+      "destination": "https://generateur-posts.vercel.app/api/pro?a=contact"
     }
   ]
 }
