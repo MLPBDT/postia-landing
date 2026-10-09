@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /demo/
+Disallow: /stop/
+Sitemap: https://www.postia-app.fr/sitemap.xml

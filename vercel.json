@@ -1,0 +1,13 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/demo/:slug",
+      "destination": "https://generateur-posts.vercel.app/demo/:slug"
+    },
+    {
+      "source": "/stop/:t",
+      "destination": "https://generateur-posts.vercel.app/stop/:t"
+    }
+  ]
+}
