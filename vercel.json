@@ -1,5 +1,16 @@
 {
   "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/posts-:slug",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/demo/:slug",
@@ -12,6 +23,10 @@
     {
       "source": "/api/contact",
       "destination": "https://generateur-posts.vercel.app/api/pro?a=contact"
+    },
+    {
+      "source": "/api/generate",
+      "destination": "https://generateur-posts.vercel.app/api/generate"
     }
   ]
 }
